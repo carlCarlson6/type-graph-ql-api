@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
-import {account} from '../etherealEmailAccount';
+import {account} from '../../etherealEmailAccount';
 
-export const sendEmail = async (email: string, url: string): Promise<void> => {
+export const sendEmail = async (email: string, url: string, subject: string): Promise<void> => {
 
     const transporter = nodemailer.createTransport({
         host: 'smtp.ethereal.email',
@@ -13,14 +13,12 @@ export const sendEmail = async (email: string, url: string): Promise<void> => {
     const mailOptions = {
         from: account.user,
         to: email,
-        subject: 'confirmation',
-        text: 'confirm your account by clicking on the url',
+        subject: subject,
+        text: subject,
         html: `<a href=${url}>${url}</a>`
     };
 
-    console.log('loggg 1');
     const info = await transporter.sendMail(mailOptions);
-    console.log('loggg 2');
 
     console.log('message sent', info.messageId);
     console.log('preview url', nodemailer.getTestMessageUrl(info));

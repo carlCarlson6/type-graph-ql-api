@@ -4,8 +4,9 @@ import { User } from "../../entities/User";
 import {RegisterInput} from "./register/RegisterInput";
 import { isAuth } from "../../middleware/isAuth";
 import { logger } from "../../middleware/logger";
-import { sendEmail } from "../../utils/sendEmail";
-import { createConfirmationUrl } from "../../utils/createConfirmationUrl";
+import { sendEmail } from "../../common/utils/sendEmail";
+import { createUrl } from "../../common/utils/createUrl";
+import { confirUserPrefix } from "../../common/RedisPrefixes";
 
 
 @Resolver()
@@ -24,8 +25,8 @@ export class RegisterResolver {
         const user = User.create({ firstName, lastName, email, password: hashedPassword });
         await user.save();
 
-        const confirmationMailUrl = await createConfirmationUrl(user.id);
-        await sendEmail(email, confirmationMailUrl);
+        const confirmationMailUrl = await createUrl(user.id, 'user/confirm-account', confirUserPrefix);
+        await sendEmail(email, confirmationMailUrl, 'confirmation account');
         
         return user;
     }
