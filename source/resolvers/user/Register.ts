@@ -6,7 +6,7 @@ import { isAuth } from "../../middleware/isAuth";
 import { logger } from "../../middleware/logger";
 import { sendEmail } from "../../common/utils/sendEmail";
 import { createUrl } from "../../common/utils/createUrl";
-import { confirUserPrefix } from "../../common/RedisPrefixes";
+import { confirmUserPrefix } from "../../common/RedisPrefixes";
 
 
 @Resolver()
@@ -25,7 +25,7 @@ export class RegisterResolver {
         const user = User.create({ firstName, lastName, email, password: hashedPassword });
         await user.save();
 
-        const confirmationMailUrl = await createUrl(user.id, 'user/confirm-account', confirUserPrefix);
+        const confirmationMailUrl = await createUrl(user.id, 'user/confirm-account', confirmUserPrefix);
         await sendEmail(email, confirmationMailUrl, 'confirmation account');
         
         return user;

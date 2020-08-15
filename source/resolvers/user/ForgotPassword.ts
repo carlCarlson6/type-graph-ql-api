@@ -5,6 +5,7 @@ import { redis } from "../../redis";
 import { createUrl } from "../../common/utils/createUrl";
 import { sendEmail } from "../../common/utils/sendEmail";
 import { forgotPasswordPrefix } from "../../common/RedisPrefixes";
+import { ForgotPasswordInput } from "./forgot-passwrod/ForgotPasswordInput";
 
 @Resolver()
 export class ForgotPasswordResolver {
@@ -21,14 +22,14 @@ export class ForgotPasswordResolver {
     }
 
     @Mutation(() => Boolean)
-    async changePassword(@Arg('token') token: string, @Arg('newPassword') newPassword: string): Promise<Boolean> {
+    async changePassword(@Arg('data') {password, token}: ForgotPasswordInput): Promise<Boolean> {
         const userId = await redis.get(token);
         if(!userId) { return false }
         
-        const hashedNewPassword = await bycrypt.hash(newPassword, 10);
+        const hashedNewPassword = await bycrypt.hash(password, 10);
         await User.update({id: parseInt(userId, 10)}, {password: hashedNewPassword})
 
-        await redis.del(token);
+        await redis.del(forgotPasswordPrefix+token);
 
         return true;
     }

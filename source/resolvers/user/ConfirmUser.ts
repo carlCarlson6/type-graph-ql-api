@@ -3,6 +3,7 @@ import bycrypt from 'bcryptjs';
 import { User } from "../../entities/User";
 import { MyContext } from "../../types/MyContext";
 import { redis } from "../../redis";
+import { confirmUserPrefix } from "../../common/RedisPrefixes";
 
 @Resolver()
 export class ConfirmUserResolver {
@@ -13,7 +14,7 @@ export class ConfirmUserResolver {
         if(!userId) { return false }
         
         await User.update({id: parseInt(userId, 10)}, {confirmed: true})
-        await redis.del(token);
+        await redis.del(confirmUserPrefix+token);
 
         return true;
     }
