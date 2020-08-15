@@ -5,8 +5,8 @@ import {RegisterInput} from "./register/RegisterInput";
 import { isAuth } from "../../middleware/isAuth";
 import { logger } from "../../middleware/logger";
 import { sendEmail } from "../../utils/sendEmail";
-import { url } from "inspector";
 import { createConfirmationUrl } from "../../utils/createConfirmationUrl";
+
 
 @Resolver()
 export class RegisterResolver {
@@ -24,9 +24,9 @@ export class RegisterResolver {
         const user = User.create({ firstName, lastName, email, password: hashedPassword });
         await user.save();
 
-        const confirmationMailUrl = await createConfirmationUrl(user.id); 
+        const confirmationMailUrl = await createConfirmationUrl(user.id);
         await sendEmail(email, confirmationMailUrl);
-
+        
         return user;
     }
 }
