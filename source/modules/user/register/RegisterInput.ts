@@ -20,6 +20,6 @@ export class RegisterInput {
     
     @Field()
     @Length(6, undefined, {message: 'password must be 6 characters min'})
-    password: string
+    password: string;
 
 }

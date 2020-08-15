@@ -12,7 +12,9 @@ export class LoginResolver {
         if(!user) { return null }
 
         const valid = await bycrypt.compare(password, user.password);
-        if(! valid) { return null }
+        if(!valid) { return null }
+
+        if(!user.confirmed){ throw new Error('this account is not confirmed check your email') }
 
         context.req.session!.userId = user.id;
         return user;
