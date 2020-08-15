@@ -13,12 +13,13 @@ import { Context } from 'vm';
 import { MeResolver } from './resolvers/user/Me';
 import { ConfirmUserResolver } from './resolvers/user/ConfirmUser';
 import { ForgotPasswordResolver } from './resolvers/user/ForgotPassword';
+import { LogoutResolver } from './resolvers/user/Logout';
 
 const main = async (): Promise<void> => {
     await createConnection();
 
     const schema = await buildSchema({
-        resolvers: [RegisterResolver, LoginResolver, MeResolver, ConfirmUserResolver, ForgotPasswordResolver]
+        resolvers: [RegisterResolver, LoginResolver, MeResolver, ConfirmUserResolver, ForgotPasswordResolver, LogoutResolver]
     })
     
     const apolloServer = new ApolloServer({
