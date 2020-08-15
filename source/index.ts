@@ -3,20 +3,21 @@ import { ApolloServer } from 'apollo-server-express';
 import Express from 'express';
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
-import { RegisterResolver } from './modules/user/Register';
+import { RegisterResolver } from './resolvers/user/Register';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
 import { redis } from './redis';
 import cors from 'cors';
-import { LoginResolver } from './modules/user/Login';
+import { LoginResolver } from './resolvers/user/Login';
 import { Context } from 'vm';
-import { MeResolver } from './modules/user/Me';
+import { MeResolver } from './resolvers/user/Me';
+import { ConfirmUserResolver } from './resolvers/user/ConfirmUser';
 
 const main = async (): Promise<void> => {
     await createConnection();
 
     const schema = await buildSchema({
-        resolvers: [RegisterResolver, LoginResolver, MeResolver]
+        resolvers: [RegisterResolver, LoginResolver, MeResolver, ConfirmUserResolver]
     })
     
     const apolloServer = new ApolloServer({
