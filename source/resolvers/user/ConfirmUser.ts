@@ -1,7 +1,5 @@
-import { Resolver, Mutation, Arg, Ctx } from "type-graphql";
-import bycrypt from 'bcryptjs';
+import { Resolver, Mutation, Arg } from "type-graphql";
 import { User } from "../../entities/User";
-import { MyContext } from "../../types/MyContext";
 import { redis } from "../../redis";
 import { confirmUserPrefix } from "../../common/RedisPrefixes";
 
