@@ -5,7 +5,9 @@
   "main": "./build/index.js",
   "scripts": {
     "dev": "nodemon --exec ts-node source/index.ts",
-    "start": "tsc && ts-node ."
+    "start": "tsc && ts-node .",
+    "db-setup": "ts-node source/test/setup.ts",
+    "test": "npm run db-setup && jest"
   },
   "keywords": [],
   "author": "",
