@@ -14,16 +14,18 @@ import { MeResolver } from './resolvers/user/Me';
 import { ConfirmUserResolver } from './resolvers/user/ConfirmUser';
 import { ForgotPasswordResolver } from './resolvers/user/ForgotPassword';
 import { LogoutResolver } from './resolvers/user/Logout';
+import { CreateUserResolver } from './resolvers/user/CreateUser';
+import { CreateProductResolver } from './resolvers/product/CreateProduct';
 
 const main = async (): Promise<void> => {
     await createConnection();
 
     const schema = await buildSchema({
-        resolvers: [RegisterResolver, LoginResolver, MeResolver, ConfirmUserResolver, ForgotPasswordResolver, LogoutResolver]
+        resolvers: [RegisterResolver, LoginResolver, MeResolver, ConfirmUserResolver, ForgotPasswordResolver, LogoutResolver, CreateUserResolver, CreateProductResolver]
     })
     
     const apolloServer = new ApolloServer({
-        schema, 
+        schema,
         context: ({req, res}):Context => ({req, res})
     });
     const app = Express();
