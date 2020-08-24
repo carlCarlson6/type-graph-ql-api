@@ -16,12 +16,23 @@ import { ForgotPasswordResolver } from './resolvers/user/ForgotPassword';
 import { LogoutResolver } from './resolvers/user/Logout';
 import { CreateUserResolver } from './resolvers/user/CreateUser';
 import { CreateProductResolver } from './resolvers/product/CreateProduct';
+import { ProfielPrictureResolver } from './resolvers/user/ProfilePicture';
 
 const main = async (): Promise<void> => {
     await createConnection();
 
     const schema = await buildSchema({
-        resolvers: [RegisterResolver, LoginResolver, MeResolver, ConfirmUserResolver, ForgotPasswordResolver, LogoutResolver, CreateUserResolver, CreateProductResolver]
+        resolvers: [
+            RegisterResolver, 
+            LoginResolver, 
+            MeResolver, 
+            ConfirmUserResolver, 
+            ForgotPasswordResolver, 
+            LogoutResolver, 
+            CreateUserResolver, 
+            CreateProductResolver,
+            ProfielPrictureResolver
+        ]
     })
     
     const apolloServer = new ApolloServer({
@@ -53,3 +64,5 @@ const main = async (): Promise<void> => {
 
 
 main();
+
+'{"query":"mutation AddProfilePicture($picture: Upload!) {\n  addProfilePicture(picture: $picture)\n}"}'
